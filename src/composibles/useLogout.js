@@ -9,7 +9,6 @@ const logout = async () => {
   isPending.value = true;
   try {
     const res = projectAuth.signOut();
-    console.log(res, "this is my response");
     error.value = null;
     isPending.value = false;
     return res;

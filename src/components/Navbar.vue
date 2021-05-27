@@ -6,17 +6,36 @@
         <router-link :to="{ name: 'Home' }">Muso Ninjas</router-link>
       </h1>
       <div class="links">
-        <button>Logout</button>
-
-        <router-link class="btn" :to="{ name: 'Signup' }">Signup</router-link>
-        <router-link class="btn" :to="{ name: 'Login' }">Login</router-link>
+        <div class="" v-if="user">
+          <button @click="handleClick" v-if="user">Logout</button>
+        </div>
+        <div class="" v-else>
+          <router-link class="btn" :to="{ name: 'Signup' }">Signup</router-link>
+          <router-link class="btn" :to="{ name: 'Login' }">Login</router-link>
+        </div>
       </div>
     </nav>
   </div>
 </template>
 
 <script>
-export default {};
+import useLogout from "@/composibles/useLogout";
+import getUser from "@/composibles/getUser";
+import { useRouter } from "vue-router";
+
+export default {
+  setup() {
+    const { logout } = useLogout();
+    const router = useRouter();
+    const { user } = getUser();
+
+    const handleClick = async () => {
+      await logout();
+      router.push({ name: "Login" });
+    };
+    return { handleClick, user };
+  },
+};
 </script>
 
 <style scoped>
